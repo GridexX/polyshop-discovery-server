@@ -1,0 +1,26 @@
+version: '3.9'
+
+services: 
+  discovery-server:
+    image: maven:3.9-amazoncorretto-19
+    container_name: discovery-server
+    ports:
+      - 8761:8761
+    expose:
+      - 8761
+    volumes:
+      - .:/app
+      - maven-repo:/root/.m2
+    working_dir: /app
+    command: mvn spring-boot:run
+    networks:
+      - spring_microservices
+    environment:
+      - EUREKA_HOST=discovery-server
+
+volumes:
+  maven-repo:
+
+networks:
+  spring_microservices:
+    external: true
